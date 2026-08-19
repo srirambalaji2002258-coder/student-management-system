@@ -1,0 +1,10 @@
+POST http://localhost:3000/students
+Content-Type: application/json
+
+{
+    "admissionNumber": "ADM002",
+    "fullName": "Arun",
+    "age": 20,
+    "gender": "Male",
+    "bloodGroup": "B+"
+}

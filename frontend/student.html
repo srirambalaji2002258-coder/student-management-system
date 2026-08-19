@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Management System</title>
+
+    <link rel="stylesheet" href="student.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header>
+            <h1>🎓 Student Management System</h1>
+            <p>Manage student records easily</p>
+        </header>
+
+
+        <!-- Add Student -->
+
+        <section class="card">
+
+            <h2>➕ Add Student</h2>
+
+            <form id="studentForm">
+
+                <div class="form-group">
+
+                    <label for="name">Student Name</label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Enter student name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="age">Age</label>
+
+                    <input
+                        type="number"
+                        id="age"
+                        placeholder="Enter age"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="course">Course</label>
+
+                    <input
+                        type="text"
+                        id="course"
+                        placeholder="Enter course"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="email">Email</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter email"
+                        required
+                    >
+
+                </div>
+
+
+                <button type="submit">
+                    Add Student
+                </button>
+
+            </form>
+
+            <p id="message"></p>
+
+        </section>
+
+
+        <!-- Search -->
+
+        <section class="card">
+
+            <h2>🔍 Search Students</h2>
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search by student name..."
+            >
+
+        </section>
+
+
+        <!-- Student List -->
+
+        <section class="card">
+
+            <div class="list-header">
+
+                <h2>📋 Student List</h2>
+
+                <button id="refreshButton">
+                    🔄 Refresh
+                </button>
+
+            </div>
+
+
+            <div id="studentList">
+
+                <p class="loading">
+                    Loading students...
+                </p>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <script src="student.js"></script>
+
+</body>
+
+</html>
