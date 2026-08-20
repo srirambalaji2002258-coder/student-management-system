@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000";
+const API_URL = "https://student-management-system-production-b882.up.railway.app";
 // ================================
 // LOAD STUDENTS
 // ================================
