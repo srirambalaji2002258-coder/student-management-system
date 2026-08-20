@@ -1,4 +1,4 @@
-const API_URL = "https://student-management-system-production-b882.up.railway.app";
+const API_URL = "https://student-management-system-production-d45c.up.railway.app";
 // ================================
 // LOAD STUDENTS
 // ================================
