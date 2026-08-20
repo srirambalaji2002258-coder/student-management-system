@@ -5,10 +5,16 @@ const path = require("path");
 
 const app = express();
 
-// Railway provides the PORT automatically
+// ========================================
+// RAILWAY PORT
+// ========================================
+
 const PORT = process.env.PORT || 3000;
 
-// Student data file
+// ========================================
+// DATA FILE
+// ========================================
+
 const dataFile = path.join(__dirname, "student.json");
 
 // ========================================
@@ -19,7 +25,7 @@ app.use(cors());
 app.use(express.json());
 
 // ========================================
-// CREATE student.json IF IT DOES NOT EXIST
+// CREATE DATA FILE
 // ========================================
 
 function ensureDataFile() {
@@ -35,6 +41,8 @@ function ensureDataFile() {
 
 function readStudents() {
     try {
+        ensureDataFile();
+
         const data = fs.readFileSync(dataFile, "utf8");
 
         if (!data.trim()) {
@@ -42,8 +50,9 @@ function readStudents() {
         }
 
         return JSON.parse(data);
+
     } catch (error) {
-        console.error("Error reading student.json:", error);
+        console.error("READ ERROR:", error);
         return [];
     }
 }
@@ -65,7 +74,7 @@ function saveStudents(students) {
 // ========================================
 
 app.get("/", (req, res) => {
-    res.json({
+    res.status(200).json({
         message: "Student Management System Backend is Working!"
     });
 });
@@ -75,13 +84,16 @@ app.get("/", (req, res) => {
 // ========================================
 
 app.get("/students", (req, res) => {
+
     try {
+
         const students = readStudents();
 
         res.status(200).json(students);
 
     } catch (error) {
-        console.error("GET ERROR:", error);
+
+        console.error("GET STUDENTS ERROR:", error);
 
         res.status(500).json({
             message: "Unable to read student data"
@@ -94,10 +106,18 @@ app.get("/students", (req, res) => {
 // ========================================
 
 app.post("/students", (req, res) => {
+
     try {
-        const { name, age, course, email } = req.body;
+
+        const {
+            name,
+            age,
+            course,
+            email
+        } = req.body;
 
         if (!name || !age || !course || !email) {
+
             return res.status(400).json({
                 message: "All student details are required"
             });
@@ -106,10 +126,15 @@ app.post("/students", (req, res) => {
         const students = readStudents();
 
         const newStudent = {
+
             studentId: Date.now(),
+
             name: name,
+
             age: age,
+
             course: course,
+
             email: email
         };
 
@@ -120,15 +145,20 @@ app.post("/students", (req, res) => {
         console.log("Student added:", newStudent);
 
         res.status(201).json({
+
             message: "Student added successfully",
+
             student: newStudent
         });
 
     } catch (error) {
-        console.error("POST ERROR:", error);
+
+        console.error("POST STUDENT ERROR:", error);
 
         res.status(500).json({
+
             message: "Unable to add student",
+
             error: error.message
         });
     }
@@ -139,7 +169,9 @@ app.post("/students", (req, res) => {
 // ========================================
 
 app.put("/students/:id", (req, res) => {
+
     try {
+
         const students = readStudents();
 
         const studentId = Number(req.params.id);
@@ -149,31 +181,43 @@ app.put("/students/:id", (req, res) => {
         );
 
         if (index === -1) {
+
             return res.status(404).json({
+
                 message: "Student not found"
             });
         }
 
         students[index] = {
+
             ...students[index],
+
             name: req.body.name,
+
             age: req.body.age,
+
             course: req.body.course,
+
             email: req.body.email
         };
 
         saveStudents(students);
 
         res.status(200).json({
+
             message: "Student updated successfully",
+
             student: students[index]
         });
 
     } catch (error) {
-        console.error("PUT ERROR:", error);
+
+        console.error("UPDATE ERROR:", error);
 
         res.status(500).json({
+
             message: "Unable to update student",
+
             error: error.message
         });
     }
@@ -184,7 +228,9 @@ app.put("/students/:id", (req, res) => {
 // ========================================
 
 app.delete("/students/:id", (req, res) => {
+
     try {
+
         const students = readStudents();
 
         const studentId = Number(req.params.id);
@@ -194,25 +240,33 @@ app.delete("/students/:id", (req, res) => {
         );
 
         if (index === -1) {
+
             return res.status(404).json({
+
                 message: "Student not found"
             });
         }
 
-        const deletedStudent = students.splice(index, 1)[0];
+        const deletedStudent =
+            students.splice(index, 1)[0];
 
         saveStudents(students);
 
         res.status(200).json({
+
             message: "Student deleted successfully",
+
             student: deletedStudent
         });
 
     } catch (error) {
+
         console.error("DELETE ERROR:", error);
 
         res.status(500).json({
+
             message: "Unable to delete student",
+
             error: error.message
         });
     }
@@ -225,10 +279,22 @@ app.delete("/students/:id", (req, res) => {
 ensureDataFile();
 
 app.listen(PORT, "0.0.0.0", () => {
+
     console.log("======================================");
-    console.log("Student Management System Backend");
+
+    console.log(
+        "Student Management System Backend"
+    );
+
     console.log("======================================");
-    console.log(`Server running on port ${PORT}`);
-    console.log(`Data file: ${dataFile}`);
+
+    console.log(
+        `Server running on port ${PORT}`
+    );
+
+    console.log(
+        `Data file: ${dataFile}`
+    );
+
     console.log("======================================");
 });
